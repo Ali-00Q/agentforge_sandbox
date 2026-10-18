@@ -24,11 +24,11 @@ function App() {
       <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 max-w-4xl mx-auto">
         <h1 className="text-xl font-bold">App Navigation</h1>
         <div className="flex items-center space-x-4">
+          <ThemeToggle />
           {/* User profile icon placeholder next to theme toggle */}
           <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-xs font-semibold" aria-label="User Profile">
             UP
           </div>
-          <ThemeToggle />
         </div>
       </header>
       <main className="p-4">
