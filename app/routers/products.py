@@ -10,20 +10,21 @@ class Product(BaseModel):
     name: str
     description: str | None = None
     price: float = Field(gt=0)
-    in_stock: bool = True
 
 
-PRODUCTS_DB: list[Product] = [
-    Product(id=1, name="Laptop", description="High performance laptop", price=999.99, in_stock=True),
-    Product(id=2, name="Wireless Mouse", description="Ergonomic optical mouse", price=29.99, in_stock=True),
-    Product(id=3, name="Keyboard", description="Mechanical RGB keyboard", price=79.99, in_stock=False),
+PRODUCTS: list[Product] = [
+    Product(id=1, name="Laptop", description="High performance laptop", price=999.99),
+    Product(id=2, name="Mouse", description="Wireless optical mouse", price=29.99),
+    Product(id=3, name="Keyboard", description="Mechanical RGB keyboard", price=79.99),
 ]
 
 
-@router.get("/", response_model=list[Product])
-def get_products(
-    q: Annotated[str | None, Query(description="Search products by name")] = None,
+@router.get("")
+@router.get("/")
+def list_products(
+    search: Annotated[str | None, Query(description="Filter products by name")] = None,
 ) -> list[Product]:
-    if q:
-        return [p for p in PRODUCTS_DB if q.lower() in p.name.lower()]
-    return PRODUCTS_DB
+    if search:
+        search_lower = search.lower()
+        return [p for p in PRODUCTS if search_lower in p.name.lower()]
+    return PRODUCTS
