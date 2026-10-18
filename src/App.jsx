@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginForm from './components/LoginForm';
 import ThemeToggle from './components/ThemeToggle';
 
 function App() {
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('theme:v1');
+      if (stored === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else if (stored === 'light') {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch {}
+  }, []);
+
   const handleLogin = (credentials) => {
     console.log('Logging in with:', credentials);
     alert(`Logged in successfully as ${credentials.email}`);
