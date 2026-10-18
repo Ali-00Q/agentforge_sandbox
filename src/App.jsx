@@ -14,19 +14,50 @@ function App() {
     } catch {}
   }, []);
 
+  const [user, setUser] = React.useState(null);
+
   const handleLogin = (credentials) => {
     console.log('Logging in with:', credentials);
-    alert(`Logged in successfully as ${credentials.email}`);
+    setUser(credentials);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
   };
 
   return (
     <div className="App min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors">
-      <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 max-w-4xl mx-auto">
-        <h1 className="text-xl font-bold">App Navigation</h1>
-        <ThemeToggle />
+      <header className="flex flex-col sm:flex-row items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 max-w-4xl mx-auto gap-4">
+        <h1 className="text-xl font-bold">{user ? 'Home Page' : 'App Navigation'}</h1>
+        <nav className="flex items-center justify-between w-full sm:w-auto space-x-4">
+          <div className="flex items-center space-x-2">
+            <ThemeToggle />
+          </div>
+          <div className="flex items-center space-x-2">
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 px-3 py-1.5 rounded-lg hover:bg-red-200 transition-colors"
+              >
+                Logout
+              </button>
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-xs font-semibold" aria-label="User Profile">
+                UP
+              </div>
+            )}
+          </div>
+        </nav>
       </header>
       <main className="p-4">
-        <LoginForm onLogin={handleLogin} />
+        {user ? (
+          <div className="max-w-2xl mx-auto mt-8 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-100 dark:border-gray-800 text-center">
+            <h2 className="text-2xl font-bold mb-4">Welcome, {user.email}!</h2>
+            <p className="text-gray-600 dark:text-gray-400">You have successfully logged into the home page.</p>
+          </div>
+        ) : (
+          <LoginForm onLogin={handleLogin} />
+        )}
       </main>
     </div>
   );
